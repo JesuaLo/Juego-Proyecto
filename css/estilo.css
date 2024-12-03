@@ -1,0 +1,69 @@
+* {
+    background-color: #333;
+}
+
+h1 {
+    color: aquamarine;
+    text-align: center;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 90%, 10%;
+}
+
+#areaJuego{
+    height: 75%;
+    width: 100%;
+    grid-row: 1;
+}
+
+#areaJugador{
+    height: 25%;
+    width: 100%;
+    grid-row:2;
+}
+
+.botones{
+    display:flex;
+    justify-self: center;
+}
+
+.boton{
+    height: 100px;
+    width: 100px;
+    margin-left: 0.7em;
+}
+
+.boton:hover {
+    box-shadow: 1em;
+    cursor: pointer;
+}
+
+ul{
+    list-style-type: none;
+}
+
+#rojo{
+    background-color: red;
+}
+
+#azul{
+    background-color: blue;
+}
+
+#naranja{
+    background-color: orange;
+}
+
+#verde{
+    background-color: green;
+}
+
+#amarillo {
+    background-color: yellow;
+}
+
+#purpura {
+    background-color: purple;
+}
