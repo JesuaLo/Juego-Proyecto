@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'Playtimes'; 
+    src: url('fonts/Playtimes.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
     background-color: #333;
 }
@@ -24,6 +31,11 @@ main {
     grid-row:2;
 }
 
+.zonaBotones{
+    display:contents;
+    align-self: bottom;
+}
+
 .botones{
     display:flex;
     justify-self: center;
@@ -40,30 +52,63 @@ main {
     cursor: pointer;
 }
 
+.boton-jugar {
+    display: flex;
+    height: 4em;
+    width: 10em;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    font-family: 'Playtimes';
+    background: linear-gradient(to left, pink, coral);
+    border-radius: 24px;
+}
+
+.boton-jugar:hover {
+    cursor: pointer;
+}
+
 ul{
     list-style-type: none;
 }
 
-#rojo{
+.rojo{
     background-color: red;
+    color:red;
 }
 
-#azul{
+.azul{
     background-color: blue;
+    color:blue;
 }
 
-#naranja{
+.naranja{
     background-color: orange;
+    color: orange;
 }
 
-#verde{
+.verde{
     background-color: green;
+    color:green;
 }
 
-#amarillo {
+.amarillo {
     background-color: yellow;
+    color: yellow;
 }
 
-#purpura {
+.purpura {
     background-color: purple;
+    color:purple;
+}
+
+.zonapreview {
+    display: flex;
+    justify-self: center;
+}
+
+.preview {
+    height: 30px;
+    width: 30px;
+    margin-left: 0.7em;
 }

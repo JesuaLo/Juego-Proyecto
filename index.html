@@ -12,26 +12,41 @@
     <main>
         <div id="areaJuego"></div>
         <div id="areaJugador">
-            <ul class="botones">
-                <li>
-                    <div class="boton" id="rojo"></div>
-                </li>
-                <li>
-                    <div class="boton" id="purpura"></div>
-                </li>
-                <li>
-                    <div class="boton" id="azul"></div>
-                </li>
-                <li>
-                    <div class="boton" id="verde"></div>
-                </li>
-                <li>
-                    <div class="boton" id="amarillo"></div>
-                </li>
-                <li>
-                    <div class="boton" id="naranja"></div>
-                </li>
-            </ul>
+            <div class="zonapreview">
+                <ul>
+                    <li class="preview"></li>
+                    <li class="preview"></li>
+                    <li class="preview"></li>
+                    <li class="preview"></li>
+                    <li class="preview"></li>
+                    <li class="preview"></li>
+                </ul>
+            </div>
+            <div class="zonaBotones">
+                <ul class="botones">
+                    <li>
+                        <div class="boton rojo" onclick="meterColor('rojo')">rojo</div>
+                    </li>
+                    <li>
+                        <div class="boton purpura">purpura</div>
+                    </li>
+                    <li>
+                        <div class="boton azul">azul</div>
+                    </li>
+                    <li>
+                        <div class="boton verde">verde</div>
+                    </li>
+                    <li>
+                        <div class="boton amarillo">amarillo</div>
+                    </li>
+                    <li>
+                        <div class="boton naranja">naranja</div>
+                    </li>
+                </ul>
+                <div class="boton-jugar">
+                    Jugar
+                </div>
+            </div>
         </div>
     </main>
 </body>

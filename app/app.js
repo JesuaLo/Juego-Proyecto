@@ -1,6 +1,14 @@
 const COLORES = ["rojo", "purpura", "azul", "verde", "amarillo", "naranja"];
 const LARGO = 6;
+const INTENTOS = 7;
 
+function preparacion(numero = INTENTOS) {
+    for (let i = 1; i >= numero; i++ ) {
+        document.getElementById("areaJuego").innerHTML += `<div id="intento${i}"></div>`
+    }
+}
+
+preparacion();
 
 class Ficha {
     constructor(color){
@@ -10,7 +18,7 @@ class Ficha {
             throw RangeError('Color no permitido');
         }
         this.position = null;
-        this.verificacion = null;
+        this.verificacion = false;
     }
 }
 
@@ -34,14 +42,23 @@ class Fila{
     }
 }
 
+Fila.prototype.compararFilas =  function (fila){
+    for (let i = 0; i < this.combinacion.length ; i++) {
+        if (this.combinacion[i].color === fila.combinacion[i].color) {
+            fila.combinacion[i].verificacion = true;
+        }
+    }
+}
+
 Fila.prototype.anadirFicha = function (ficha){
     this.combinacion.push(ficha);
+    ficha.anadirPosicion(this.length-1);
 }
 
 Fila.prototype.contarColorCorrecto = function (color){
     this.combinacion.forEach(ficha => function(){
         let cantidad = 0
-        if (ficha.color == color && ficha.verificacion === true) {
+        if (ficha.verificacion === true) {
             cantidad++
         }
     }
@@ -55,7 +72,10 @@ Fila.prototype.contarColor = function (color){
         if (ficha.color == color) {
             cantidad++
         }
-    }
-    )
+    })
     return cantidad;
+}
+
+function meterColor() {
+    
 }
