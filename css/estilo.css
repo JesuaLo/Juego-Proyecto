@@ -105,10 +105,18 @@ ul{
 .zonapreview {
     display: flex;
     justify-self: center;
+    justify-content: center;
+    height: 50px;
+    width: 100vh;
 }
 
 .preview {
     height: 30px;
     width: 30px;
     margin-left: 0.7em;
+    border-radius: 100%;
+}
+
+.preview:hover {
+    cursor: pointer;
 }

@@ -2,13 +2,17 @@ const COLORES = ["rojo", "purpura", "azul", "verde", "amarillo", "naranja"];
 const LARGO = 6;
 const INTENTOS = 7;
 
+var jugador;
+var objetivo;
+
 function preparacion(numero = INTENTOS) {
     for (let i = 1; i >= numero; i++ ) {
         document.getElementById("areaJuego").innerHTML += `<div id="intento${i}"></div>`
     }
+    objetivo = Fila.generarAleatoria();
+    jugador = new Fila();
 }
 
-preparacion();
 
 class Ficha {
     constructor(color){
@@ -26,17 +30,21 @@ Ficha.prototype.anadirPosicion = function (posicion) {
     this.position = posicion
 }
 
+
+
+//Clase Fila y sus métodos
+
 class Fila{
     constructor() {
         this.combinacion = [];
     }
-
+    
     
     static generarAleatoria(){
         let nuevaFila = new Fila
         for (let x = 0; x < LARGO; x++) {
             let index = Math.floor(Math.random()*(LARGO));
-            nuevaFila.combinacion.push(new Ficha(COLORES[index]));
+            nuevaFila.anadirFicha(new Ficha(COLORES[index]));
         }
         return nuevaFila;
     }
@@ -52,7 +60,16 @@ Fila.prototype.compararFilas =  function (fila){
 
 Fila.prototype.anadirFicha = function (ficha){
     this.combinacion.push(ficha);
-    ficha.anadirPosicion(this.length-1);
+    ficha.anadirPosicion(this.combinacion.length);
+}
+
+Fila.prototype.sacarFicha = function (posicion){
+    this.combinacion.forEach(ficha => function () {
+        alert(ficha.posicion)
+        if (ficha.posicion == posicion){
+            this.combinacion.splice(posicion-1, 1);
+        }
+    })
 }
 
 Fila.prototype.contarColorCorrecto = function (color){
@@ -62,8 +79,8 @@ Fila.prototype.contarColorCorrecto = function (color){
             cantidad++
         }
     }
-    )
-    return cantidad;
+)
+return cantidad;
 }
 
 Fila.prototype.contarColor = function (color){
@@ -76,6 +93,26 @@ Fila.prototype.contarColor = function (color){
     return cantidad;
 }
 
-function meterColor() {
-    
+
+//Funciones para los botones
+
+function meterColor(color) {
+    ficha = new Ficha(`${color}`);
+    if (jugador.combinacion.length >= LARGO) {
+        alert("Maximo alcanzado");
+    } else {
+        jugador.anadirFicha(ficha);
+    }
+    ficha.anadirPosicion = jugador.combinacion.length
+    mostrarIntento();
 }
+
+function mostrarIntento() {
+    let sentencia = ''
+    jugador.combinacion.forEach(function (ficha) {
+        sentencia += `<div class="preview ${ficha.color}"></div>`
+    });
+    document.getElementById('previews').innerHTML = sentencia
+}
+
+preparacion();
