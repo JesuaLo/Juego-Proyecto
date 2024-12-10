@@ -4,6 +4,7 @@ const INTENTOS = 7;
 
 var jugador;
 var objetivo;
+var ronda = 1;
 
 function preparacion(numero = INTENTOS) {
     for (let i = 1; i >= numero; i++ ) {
@@ -21,13 +22,13 @@ class Ficha {
         } else {
             throw RangeError('Color no permitido');
         }
-        this.position = null;
+        this.posicion = null;
         this.verificacion = false;
     }
 }
 
 Ficha.prototype.anadirPosicion = function (posicion) {
-    this.position = posicion
+    this.posicion = posicion
 }
 
 
@@ -64,8 +65,7 @@ Fila.prototype.anadirFicha = function (ficha){
 }
 
 Fila.prototype.sacarFicha = function (posicion){
-    this.combinacion.forEach(ficha => function () {
-        alert(ficha.posicion)
+    this.combinacion.forEach((ficha) => {
         if (ficha.posicion == posicion){
             this.combinacion.splice(posicion-1, 1);
         }
@@ -73,9 +73,9 @@ Fila.prototype.sacarFicha = function (posicion){
 }
 
 Fila.prototype.contarColorCorrecto = function (color){
-    this.combinacion.forEach(ficha => function(){
+    this.combinacion.forEach((ficha) => {
         let cantidad = 0
-        if (ficha.verificacion === true) {
+        if (ficha.verificacion === true && ficha.color == color) {
             cantidad++
         }
     }
@@ -84,8 +84,8 @@ return cantidad;
 }
 
 Fila.prototype.contarColor = function (color){
+    let cantidad
     this.combinacion.forEach(ficha => function(){
-        let cantidad = 0
         if (ficha.color == color) {
             cantidad++
         }
@@ -103,16 +103,51 @@ function meterColor(color) {
     } else {
         jugador.anadirFicha(ficha);
     }
-    ficha.anadirPosicion = jugador.combinacion.length
+    ficha.anadirPosicion(jugador.combinacion.length);
+    mostrarIntento();
+}
+
+function sacarFicha(posicion) {
+    jugador.sacarFicha(posicion);
+    let i = 1;
+    jugador.combinacion.forEach((ficha) => {
+        ficha.posicion = i;
+        i++;
+    })
     mostrarIntento();
 }
 
 function mostrarIntento() {
     let sentencia = ''
     jugador.combinacion.forEach(function (ficha) {
-        sentencia += `<div class="preview ${ficha.color}"></div>`
+        sentencia += `<div class="preview ${ficha.color}" onclick="sacarFicha(${ficha.posicion})"></div>`
     });
     document.getElementById('previews').innerHTML = sentencia
+}
+
+function jugar() {
+    if (ronda <= INTENTOS) {
+        objetivo.compararFilas(jugador);
+        if (jugador.combinacion.length = LARGO) {
+            let sentencia = `<div id="intento${ronda}">`
+            jugador.combinacion.forEach(function (ficha) {
+                if (ficha.verificacion == true){
+                    sentencia += `<div class="boton correcto ${ficha.color}"></div>`
+                } else if ((jugador.contarColor(ficha.color) - objetivo.contarColor(ficha.color)) > 0){
+                    sentencia += `<div class="boton casi ${ficha.color}"></div>`
+                }else {
+                    sentencia += `<div class="boton ${ficha.color}"></div>`
+                }
+            });
+            document.getElementById("areaJuego").innerHTML += `${sentencia}</div>`
+            document.getElementById(`intento${ronda}`).innerHTML = sentencia
+            ronda ++;
+        } else {
+            alert('Combinación inacabada')
+        }
+    } else {
+        alert('Intentos acabado, empiece una nueva partida')
+    }
 }
 
 preparacion();

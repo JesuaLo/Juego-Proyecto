@@ -5,6 +5,7 @@
     font-style: normal;
 }
 
+
 * {
     background-color: #333;
 }
@@ -23,6 +24,12 @@ main {
     height: 75%;
     width: 100%;
     grid-row: 1;
+    margin-bottom: 2em;
+    justify-self: center;
+}
+
+#areaJuego *{
+    display:flex;
 }
 
 #areaJugador{
@@ -45,6 +52,7 @@ main {
     height: 100px;
     width: 100px;
     margin-left: 0.7em;
+    margin-bottom: 1em;
 }
 
 .boton:hover {
@@ -100,6 +108,14 @@ ul{
 .purpura {
     background-color: purple;
     color:purple;
+}
+
+.correcto {
+    border-bottom: greenyellow, 10px;
+}
+
+.casi {
+    border-bottom: gold, 10px;
 }
 
 .zonapreview {
