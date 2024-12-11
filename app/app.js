@@ -1,10 +1,12 @@
 const COLORES = ["rojo", "purpura", "azul", "verde", "amarillo", "naranja"];
 const LARGO = 6;
-const INTENTOS = 7;
+const INTENTOS = 6;
+console.log('holi');
 
 var jugador;
 var objetivo;
 var ronda = 1;
+var acc;
 
 function preparacion(numero = INTENTOS) {
     for (let i = 1; i >= numero; i++ ) {
@@ -12,6 +14,42 @@ function preparacion(numero = INTENTOS) {
     }
     objetivo = Fila.generarAleatoria();
     jugador = new Fila();
+    acc = new Acumulador;
+}
+
+class Acumulador {
+    constructor(){
+        this.rojo = 0;
+        this.purpura = 0;
+        this.azul = 0;
+        this.verde = 0;
+        this.amarillo = 0;
+        this.naranja = 0;
+    }
+}
+
+Acumulador.prototype.setRojo = function (numero) {
+    this.rojo = numero;
+}
+
+Acumulador.prototype.setPurpura = function (numero) {
+    this.purpura = numero;
+}
+
+Acumulador.prototype.setAzul = function (numero) {
+    this.azul = numero;
+}
+
+Acumulador.prototype.setVerde = function (numero) {
+    this.verde = numero;
+}
+
+Acumulador.prototype.setAmarillo = function (numero) {
+    this.amarillo = numero;
+}
+
+Acumulador.prototype.setNaranja = function (numero) {
+    this.naranja = numero;
 }
 
 
@@ -23,7 +61,7 @@ class Ficha {
             throw RangeError('Color no permitido');
         }
         this.posicion = null;
-        this.verificacion = false;
+        this.verificacion = '';
     }
 }
 
@@ -31,30 +69,80 @@ Ficha.prototype.anadirPosicion = function (posicion) {
     this.posicion = posicion
 }
 
-
+Ficha.prototype.esAmarillo = function (fila, color) {
+    
+    switch (color) {
+        case "rojo":
+            if (fila.acumulador.rojo > 0){
+                this.verificacion = 'casi';
+                fila.acumulador.rojo--;
+            }
+            break;
+        case "purpura":
+            if (fila.acumulador.purpura > 0){
+                this.verificacion = 'casi';
+                fila.acumulador.purpura--;
+            }
+            break;
+        case "azul":
+            if (fila.acumulador.azul > 0){
+                this.verificacion = 'casi';
+                fila.acumulador.azul--;
+            }
+            break;
+        case "verde":
+            if (fila.acumulador.verde > 0){
+                this.verificacion = 'casi';
+                fila.acumulador.verde--;
+            }
+            break;
+        case "amarillo":
+            if (fila.acumulador.amarillo > 0){
+                this.verificacion = 'casi';
+                fila.acumulador.amarillo--;
+            }
+            break;
+        case "naranja":
+            if (fila.acumulador.naranja > 0){
+                this.verificacion = 'casi';
+                fila.acumulador.naranja--;
+            }
+            break;
+        default:
+            return "pito pa ti";
+        }
+    // if (acc > 0) {
+    //     this.verificacion = 'casi';
+    //     acc--;
+    // }
+}
 
 //Clase Fila y sus métodos
 
 class Fila{
     constructor() {
         this.combinacion = [];
+        this.acumulador = new Acumulador;
     }
     
-    
+    //Método para generar la fila aleatoria
     static generarAleatoria(){
         let nuevaFila = new Fila
         for (let x = 0; x < LARGO; x++) {
             let index = Math.floor(Math.random()*(LARGO));
             nuevaFila.anadirFicha(new Ficha(COLORES[index]));
+            nuevaFila.combinacion[x].verificacion = 'correcto'
         }
         return nuevaFila;
     }
 }
 
-Fila.prototype.compararFilas =  function (fila){
-    for (let i = 0; i < this.combinacion.length ; i++) {
-        if (this.combinacion[i].color === fila.combinacion[i].color) {
-            fila.combinacion[i].verificacion = true;
+Fila.prototype.compararCorrectas =  function (fila){
+    if (fila.combinacion.length == LARGO) {
+        for (let i = 0; i < this.combinacion.length ; i++) {
+            if (this.combinacion[i].color === fila.combinacion[i].color) {
+                fila.combinacion[i].verificacion = 'correcto';
+            }
         }
     }
 }
@@ -73,9 +161,9 @@ Fila.prototype.sacarFicha = function (posicion){
 }
 
 Fila.prototype.contarColorCorrecto = function (color){
+    let cantidad = 0
     this.combinacion.forEach((ficha) => {
-        let cantidad = 0
-        if (ficha.verificacion === true && ficha.color == color) {
+        if (ficha.verificacion == 'correcto' && ficha.color == color) {
             cantidad++
         }
     }
@@ -83,16 +171,91 @@ Fila.prototype.contarColorCorrecto = function (color){
 return cantidad;
 }
 
-Fila.prototype.contarColor = function (color){
-    let cantidad
-    this.combinacion.forEach(ficha => function(){
-        if (ficha.color == color) {
-            cantidad++
+Fila.prototype.setAcumuladores = function (fila){
+    let countThis;
+    COLORES.forEach((color) =>{
+        countThis = this.contarColorCorrecto(color)
+        let countFila = fila.contarColorCorrecto(color)
+        let totalNoCorrectos = countFila - countThis;
+        console.log(countFila, color)
+        console.log(countThis, color)
+        console.log(totalNoCorrectos, color)
+        switch (color) {
+            case "rojo":
+                this.acumulador.setRojo(totalNoCorrectos);
+                console.log(this.acumulador.rojo)
+                break;
+            case "purpura":
+                this.acumulador.setPurpura(totalNoCorrectos);
+                break;
+            case "azul":
+                this.acumulador.setAzul(totalNoCorrectos);
+                break;
+            case "verde":
+                this.acumulador.setVerde(totalNoCorrectos);
+                break;
+            case "amarillo":
+                this.acumulador.setAmarillo(totalNoCorrectos);
+                break;
+            case "naranja":
+                this.acumulador.setNaranja(totalNoCorrectos);
+                break;
+            default:
+                return "pito pa ti";
         }
     })
-    return cantidad;
+
 }
 
+Fila.prototype.compararFilas = function (){
+    this.combinacion.forEach((ficha) => {
+        switch (ficha.color) {
+            case "rojo":
+                if (this.acumulador.rojo > 0 && ficha.verificacion != 'correcto'){
+                    ficha.esAmarillo(this, "rojo");
+                }
+                break;
+            case "purpura":
+                if (this.acumulador.purpura > 0 && ficha.verificacion != 'correcto'){
+                    ficha.esAmarillo(this, "purpura");
+                }
+                break;
+            case "azul":
+                if (this.acumulador.azul > 0 && ficha.verificacion != 'correcto'){
+                    ficha.esAmarillo(this, "azul");
+                }
+                break;
+            case "verde":
+                if (this.acumulador.verde > 0 && ficha.verificacion != 'correcto'){
+                    ficha.esAmarillo(this, "verde");
+                }
+                break;
+            case "amarillo":
+                if (this.acumulador.amarillo > 0 && ficha.verificacion != 'correcto'){
+                    ficha.esAmarillo(this, "amarillo");
+                }
+                break;
+            case "naranja":
+                if (this.acumulador.naranja > 0 && ficha.verificacion != 'correcto'){
+                    ficha.esAmarillo(this, "naranja");
+                }
+                break;
+            default:
+                return "pito pa ti";
+        }
+    });
+
+}
+
+Fila.prototype.contarCorrectas = function () {
+    let totalCorrectas = 0;
+    this.combinacion.forEach((ficha) =>{
+        if (ficha.verificacion == 'correcto'){
+            totalCorrectas++;
+        } 
+    })
+    return totalCorrectas;
+}
 
 //Funciones para los botones
 
@@ -119,7 +282,7 @@ function sacarFicha(posicion) {
 
 function mostrarIntento() {
     let sentencia = ''
-    jugador.combinacion.forEach(function (ficha) {
+    jugador.combinacion.forEach((ficha) => {
         sentencia += `<div class="preview ${ficha.color}" onclick="sacarFicha(${ficha.posicion})"></div>`
     });
     document.getElementById('previews').innerHTML = sentencia
@@ -127,26 +290,30 @@ function mostrarIntento() {
 
 function jugar() {
     if (ronda <= INTENTOS) {
-        objetivo.compararFilas(jugador);
-        if (jugador.combinacion.length = LARGO) {
+        objetivo.compararCorrectas(jugador);
+        jugador.setAcumuladores(objetivo);
+        jugador.compararFilas(objetivo);
+        if (jugador.combinacion.length == LARGO) {
             let sentencia = `<div id="intento${ronda}">`
             jugador.combinacion.forEach(function (ficha) {
-                if (ficha.verificacion == true){
-                    sentencia += `<div class="boton correcto ${ficha.color}"></div>`
-                } else if ((jugador.contarColor(ficha.color) - objetivo.contarColor(ficha.color)) > 0){
-                    sentencia += `<div class="boton casi ${ficha.color}"></div>`
-                }else {
-                    sentencia += `<div class="boton ${ficha.color}"></div>`
-                }
+                sentencia += `<div class="solucion ${ficha.verificacion} ${ficha.color}"></div>`
             });
             document.getElementById("areaJuego").innerHTML += `${sentencia}</div>`
             document.getElementById(`intento${ronda}`).innerHTML = sentencia
             ronda ++;
         } else {
-            alert('Combinación inacabada')
+            alert('Combinación inacabada');
         }
     } else {
-        alert('Intentos acabado, empiece una nueva partida')
+        alert('Intentos acabado, empiece una nueva partida');
+    }
+    jugador = new Fila();
+    mostrarIntento();
+    if (jugador.contarCorrectas() == LARGO) {
+        alert('HAS GANADO!')
+    }
+    if (ronda > INTENTOS) {
+        alert('Intentos acabado, empiece una nueva partida');
     }
 }
 

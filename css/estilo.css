@@ -10,22 +10,33 @@
     background-color: #333;
 }
 
+body, html {
+    height: 100%;
+    width: 100%;
+}
+
 h1 {
     color: aquamarine;
     text-align: center;
 }
 
-main {
-    display: grid;
-    grid-template-columns: 90%, 10%;
-}
+
 
 #areaJuego{
-    height: 75%;
+    display: flex;
+    flex-direction: column;
+    height: 58vh;
     width: 100%;
-    grid-row: 1;
-    margin-bottom: 2em;
-    justify-self: center;
+    margin-bottom: 0px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#areaJuego > div{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
 }
 
 #areaJuego *{
@@ -110,12 +121,22 @@ ul{
     color:purple;
 }
 
+.solucion {
+    height: 6vh;
+    width: 6vh;
+    margin-left: 0.7em;
+    margin-bottom: 1em;
+    border-bottom: 25px;
+    border-color: black;
+    border-style: solid;
+}
+
 .correcto {
-    border-bottom: greenyellow, 10px;
+    border-color: lightgreen;
 }
 
 .casi {
-    border-bottom: gold, 10px;
+    border-color: gold;
 }
 
 .zonapreview {
