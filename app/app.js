@@ -17,6 +17,7 @@ function preparacion(numero = INTENTOS) {
     acc = new Acumulador;
 }
 
+//Clase auxiliar para contar las casillas no acertadas, pero que están en la combinación objetivo.
 class Acumulador {
     constructor(){
         this.rojo = 0;
@@ -108,13 +109,7 @@ Ficha.prototype.esAmarillo = function (fila, color) {
                 fila.acumulador.naranja--;
             }
             break;
-        default:
-            return "pito pa ti";
         }
-    // if (acc > 0) {
-    //     this.verificacion = 'casi';
-    //     acc--;
-    // }
 }
 
 //Clase Fila y sus métodos
@@ -171,6 +166,7 @@ Fila.prototype.contarColorCorrecto = function (color){
 return cantidad;
 }
 
+//Hace contadores para cada color, para así saber cuantos aptos para la clase casi hay por color
 Fila.prototype.setAcumuladores = function (fila){
     let countThis;
     COLORES.forEach((color) =>{
@@ -200,13 +196,12 @@ Fila.prototype.setAcumuladores = function (fila){
             case "naranja":
                 this.acumulador.setNaranja(totalNoCorrectos);
                 break;
-            default:
-                return "pito pa ti";
         }
     })
 
 }
 
+//Aunque se llame comparar filas, lo que hace es mirar si cada ficha de la fila, es apta para la clase casi o no.
 Fila.prototype.compararFilas = function (){
     this.combinacion.forEach((ficha) => {
         switch (ficha.color) {
@@ -240,13 +235,12 @@ Fila.prototype.compararFilas = function (){
                     ficha.esAmarillo(this, "naranja");
                 }
                 break;
-            default:
-                return "pito pa ti";
         }
     });
 
 }
 
+//Cuenta la cantidad total de fichas correctas en la fila, útil para saber cuando se ha acertado la combinación
 Fila.prototype.contarCorrectas = function () {
     let totalCorrectas = 0;
     this.combinacion.forEach((ficha) =>{
@@ -258,7 +252,6 @@ Fila.prototype.contarCorrectas = function () {
 }
 
 //Funciones para los botones
-
 function meterColor(color) {
     ficha = new Ficha(`${color}`);
     if (jugador.combinacion.length >= LARGO) {
@@ -278,6 +271,11 @@ function sacarFicha(posicion) {
         i++;
     })
     mostrarIntento();
+}
+
+//boton para reiniciar
+function reiniciar(){
+    location.reload();
 }
 
 function mostrarIntento() {
@@ -307,14 +305,14 @@ function jugar() {
     } else {
         alert('Intentos acabado, empiece una nueva partida');
     }
-    jugador = new Fila();
-    mostrarIntento();
     if (jugador.contarCorrectas() == LARGO) {
         alert('HAS GANADO!')
     }
     if (ronda > INTENTOS) {
         alert('Intentos acabado, empiece una nueva partida');
     }
+    jugador = new Fila();
+    mostrarIntento();
 }
 
 preparacion();
